@@ -1,5 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
-
+namespace Final;
 public struct HittingStat : IStat
 {
     public int Attempts
@@ -12,6 +12,12 @@ public struct HittingStat : IStat
         get{return Errors;}
 
         set{GetErrors();}
+    }
+
+    public int Successes
+    {
+        get{return Errors;}
+        set{Successes = value;}
     }
 
     public int GetAttempts()
