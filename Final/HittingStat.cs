@@ -1,24 +1,27 @@
 using System.Security.Cryptography.X509Certificates;
 namespace Final;
-public struct HittingStat : IStat
+public class HittingStat : Stat
 {
-    public int Attempts
-    {
-        get{return Attempts;}
-        set{GetAttempts();}
-    }
-    public int Errors
-    {
-        get{return Errors;}
+    // public int Attempts
+    // {
+    //     get{return Attempts;}
+    //     set{GetAttempts();}
+    // }
+    // public int Errors
+    // {
+    //     get{return Errors;}
 
-        set{GetErrors();}
-    }
+    //     set{GetErrors();}
+    // }
 
-    public int Successes
-    {
-        get{return Errors;}
-        set{Successes = value;}
-    }
+    // public int Successes
+    // {
+    //     get{return Errors;}
+    //     set{Successes = value;}
+    // }
+
+    public HittingStat() : base(){}
+    public HittingStat(int attempts, int errors, int successes) : base(attempts, errors, successes){}
 
     public int GetAttempts()
     {
