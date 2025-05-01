@@ -112,7 +112,7 @@ public class Tournament
         }
         
         int temptemp = ValidateAnswer(1, Teams[temp - 1].Players.Count);
-        Teams[temptemp - 1].Players[temptemp - 1].AddStat();
+        Teams[temp - 1].Players[temptemp - 1].AddStat();
     }
 
     void SplitIntoPoolPlay()
