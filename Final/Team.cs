@@ -5,8 +5,8 @@ public class Team
     public List<Player> Players;
     public TrackStat TeamStat;
     public List<MatchScores> matchScores = new List<MatchScores>();
-    public int Pool = 0
-    ;
+    public Pools Pool = 0;
+    
 
     public Team()
     {

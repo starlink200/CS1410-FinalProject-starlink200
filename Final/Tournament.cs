@@ -4,7 +4,7 @@ public class Tournament
 {
     Random rand = new Random();
     public List<Team> Teams = new List<Team>();
-
+    public List<Game> Games = new List<Game>();
     public Tournament()
     {
 
@@ -14,11 +14,6 @@ public class Tournament
         Teams = teams;
     }
 
-    public void AddTeam()
-    {
-        Teams.Add(new Team(Console.ReadLine()));
-
-    }
 
     public void Run()
     {
@@ -28,11 +23,6 @@ public class Tournament
         {
             UserOptions();
         }
-    }
-
-    void GameSchedule()
-    {
-
     }
 
     void UserOptions()
@@ -67,6 +57,16 @@ public class Tournament
                 break;
         }
     }
+    public void AddTeam()
+    {
+        Teams.Add(new Team(Console.ReadLine()));
+
+    }
+
+    void GameSchedule()
+    {
+        
+    }
 
     void DisplayStats()
     {
@@ -80,6 +80,7 @@ public class Tournament
         int temp = ValidateAnswer(1, Teams.Count);
         Teams[temp - 1].TeamStats();
     }
+
     void WhichStats()
     {
         Console.WriteLine("What kind of stats are being recorded? 1: Team Stats 2: Player Stats");
@@ -141,7 +142,21 @@ public class Tournament
                 int temp = rand.Next(Teams.Count);
                 if(Teams[temp].Pool == 0)
                 {
-                    Teams[temp].Pool = i + 1;
+                    switch(i)
+                    {
+                        case 0:
+                            Teams[temp].Pool = Pools.Pool1;
+                            break;
+                        case 1:
+                            Teams[temp].Pool = Pools.Pool2;
+                            break;
+                        case 2:
+                            Teams[temp].Pool = Pools.Pool3;
+                            break;
+                        case 3:
+                            Teams[temp].Pool = Pools.Pool4;
+                            break;
+                    }
                 }
                 else
                 {
@@ -159,9 +174,32 @@ public class Tournament
             Console.WriteLine("--------------");
             foreach(Team team in Teams)
             {
-                if(team.Pool == i + 1)
+                switch(i)
                 {
-                    Console.WriteLine($"    {team.Name}");
+                    case 0:
+                        if(team.Pool == Pools.Pool1)
+                        {
+                            Console.WriteLine($"   {team.Name}");
+                        }
+                        break;
+                    case 1:
+                        if(team.Pool == Pools.Pool2)
+                        {
+                            Console.WriteLine($"   {team.Name}");
+                        }
+                        break;
+                    case 2:
+                        if(team.Pool == Pools.Pool3)
+                        {
+                            Console.WriteLine($"   {team.Name}");
+                        }
+                        break;
+                    case 3:
+                        if(team.Pool == Pools.Pool4)
+                        {
+                            Console.WriteLine($"   {team.Name}");
+                        }
+                        break;
                 }
             }
             Console.WriteLine();
@@ -184,3 +222,6 @@ public class Tournament
         return num;
     }
 }
+
+//Most tournaments wouldn't have more than 4 pools
+public enum Pools {Pool1, Pool2, Pool3, Pool4}
