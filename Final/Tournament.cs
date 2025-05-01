@@ -19,6 +19,7 @@ public class Tournament
     {
         bool quit = false;
         SplitIntoPoolPlay();
+        GameSchedule();
         while(!quit)
         {
             UserOptions();
@@ -47,7 +48,7 @@ public class Tournament
                 //RecordGameResults();
                 break;
             case 4:
-                //GameSchedule();
+                DisplayPoolPlay();
                 break;
             case 5:
                 DisplayPools();
@@ -65,7 +66,48 @@ public class Tournament
 
     void GameSchedule()
     {
-        
+        for(int i = 0; i < Teams.Count; i++)
+        {
+            for(int j = 0; j < Teams.Count; j++)
+            {
+                if(Teams[i].Pool == Teams[j].Pool && Teams[i] != Teams[j] && !Games.Contains(new Game(Teams[i], Teams[j])) && !Games.Contains(new Game(Teams[j], Teams[i])))
+                {
+                    Games.Add(new Game(Teams[i], Teams[j]));
+                }
+            }
+        }
+    }
+
+    void DisplayPoolPlay()
+    {
+        Console.WriteLine("Which pool play games would you like to look at?");
+        for(int i = 0; i < Teams.Count/4; i++)
+        {
+            Console.WriteLine($"Pool {i + 1}");
+        }
+        int temp = ValidateAnswer(1, Teams.Count/4);
+        Console.WriteLine($"   Pool {temp} Games");
+        Console.WriteLine($"-----------------------");
+        foreach(Game game in Games)
+        {
+            if(temp == 1 && game.Team1.Pool == Pools.Pool1)
+            {
+                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+            }
+            else if(temp == 2 && game.Team1.Pool == Pools.Pool2)
+            {
+                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+            }
+            else if(temp == 3 && game.Team1.Pool == Pools.Pool3)
+            {
+                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+            }
+            else if(temp == 1 && game.Team1.Pool == Pools.Pool4)
+            {
+                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+            }
+        }
+        Console.WriteLine();
     }
 
     void DisplayStats()
