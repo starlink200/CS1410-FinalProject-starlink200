@@ -32,7 +32,7 @@ public class Tournament
 
     void GameSchedule()
     {
-        
+
     }
 
     void UserOptions()
@@ -75,7 +75,7 @@ public class Tournament
                 AddTeamStat();
                 break;
             case 2:
-                //AddPlayerStat()
+                AddPlayerStat();
                 break;
         }
     }
@@ -93,7 +93,7 @@ public class Tournament
         Teams[temp].AddStat();
     }
 
-    void PAddPlayerStat()
+    void AddPlayerStat()
     {
         Console.WriteLine("Which Team is your player on?");
         int i = 1;
@@ -110,8 +110,9 @@ public class Tournament
             Console.WriteLine($"{i}: {player.Name}");
             i++;
         }
-        temp = ValidateAnswer(1, Teams[temp - 1].Players.Count);
-        Teams[temp - 1].Players[temp - 1].AddStat();
+        
+        int temptemp = ValidateAnswer(1, Teams[temp - 1].Players.Count);
+        Teams[temptemp - 1].Players[temptemp - 1].AddStat();
     }
 
     void SplitIntoPoolPlay()
