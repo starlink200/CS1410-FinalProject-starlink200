@@ -3,7 +3,10 @@ public class Team
 {
     public readonly string Name;
     public List<Player> Players;
-    public HittingStat TotalHittingStat;
+    public HittingStat TeamHittingStat;
+    public DigStat TeamDigStat;
+    public SetStat TeamSetStat;
+    public ServeStat TeamServeStat;
     public List<MatchScores> matchScores = new List<MatchScores>();
     public int Pool = 0
     ;
@@ -45,14 +48,44 @@ public class Team
         Console.WriteLine("2: Serving Stats");
         Console.WriteLine("3: Defensive Stats");
         Console.WriteLine("4: Setting Stats");
+        int temp = ValidateAnswer(1, 4);
+        switch(temp)
+        {
+            case 1:
+                TeamHittingStat.CompileStat();
+                break;
+            case 2:
+                TeamServeStat.CompileStat();
+                break;
+            case 3:
+                TeamDigStat.CompileStat();
+                break;
+            case 4:
+                TeamSetStat.CompileStat();
+                break;
+        }
     }
 
     public void TeamStats()
     {
         foreach(var player in Players)
         {
-            TotalHittingStat.Attempts += player.MyHitting.Attempts;
-            TotalHittingStat.Errors += player.MyHitting.Attempts;
+            //Add hitting stats
+            TeamHittingStat.Attempts += player.MyHittingStat.Attempts;
+            TeamHittingStat.Errors += player.MyHittingStat.Errors;
+            TeamHittingStat.Successes += player.MyHittingStat.Successes;
+            //Add digging stats
+            TeamDigStat.Attempts += player.MyDigStat.Attempts;
+            TeamDigStat.Errors += player.MyDigStat.Errors;
+            TeamDigStat.Successes += player.MyDigStat.Successes;
+            //add serving stats
+            TeamServeStat.Attempts += player.MyServeStat.Attempts;
+            TeamServeStat.Errors += player.MyServeStat.Errors;
+            TeamServeStat.Successes += player.MyServeStat.Successes;
+            //Add setting stats
+            TeamSetStat.Attempts += player.MySetStat.Attempts;
+            TeamSetStat.Errors += player.MySetStat.Errors;
+            TeamSetStat.Successes += player.MySetStat.Successes;
         }
     }
 
