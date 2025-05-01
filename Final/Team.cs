@@ -3,10 +3,7 @@ public class Team
 {
     public readonly string Name;
     public List<Player> Players;
-    public HittingStat TeamHittingStat;
-    public DigStat TeamDigStat;
-    public SetStat TeamSetStat;
-    public ServeStat TeamServeStat;
+    public TrackStat TeamStat;
     public List<MatchScores> matchScores = new List<MatchScores>();
     public int Pool = 0
     ;
@@ -15,12 +12,14 @@ public class Team
     {
         Name = "No name";
         Players = new List<Player>();
+        TeamStat = new TrackStat();
     }
 
     public Team(string name)
     {
         Name = name;
         Players = new List<Player>();
+        TeamStat = new TrackStat();
     }
 
     public void AddPlayer(string name = "")
@@ -41,51 +40,48 @@ public class Team
         return Console.ReadLine();
     }
 
-    public void AddStat()
-    {
-        Console.WriteLine("What kind of stat are we adding?");
-        Console.WriteLine("1: Hitting Stats");
-        Console.WriteLine("2: Serving Stats");
-        Console.WriteLine("3: Defensive Stats");
-        Console.WriteLine("4: Setting Stats");
-        int temp = ValidateAnswer(1, 4);
-        switch(temp)
-        {
-            case 1:
-                TeamHittingStat.CompileStat();
-                break;
-            case 2:
-                TeamServeStat.CompileStat();
-                break;
-            case 3:
-                TeamDigStat.CompileStat();
-                break;
-            case 4:
-                TeamSetStat.CompileStat();
-                break;
-        }
-    }
-
     public void TeamStats()
     {
+        HittingStat tempHit = TeamStat.HittingStats;
+        DigStat tempDig = TeamStat.DigStats;
+        ServeStat tempServe = TeamStat.ServeStats;
+        SetStat tempSet = TeamStat.SetStats;
         foreach(var player in Players)
         {
             //Add hitting stats
-            TeamHittingStat.Attempts += player.MyHittingStat.Attempts;
-            TeamHittingStat.Errors += player.MyHittingStat.Errors;
-            TeamHittingStat.Successes += player.MyHittingStat.Successes;
+            tempHit.Attempts += player.MyStats.HittingStats.Attempts;
+            tempHit.Errors += player.MyStats.HittingStats.Errors;
+            tempHit.Successes += player.MyStats.HittingStats.Successes;
             //Add digging stats
-            TeamDigStat.Attempts += player.MyDigStat.Attempts;
-            TeamDigStat.Errors += player.MyDigStat.Errors;
-            TeamDigStat.Successes += player.MyDigStat.Successes;
+            tempDig.Attempts += player.MyStats.DigStats.Attempts;
+            tempDig.Errors += player.MyStats.DigStats.Errors;
+            tempDig.Successes += player.MyStats.DigStats.Successes;
             //add serving stats
-            TeamServeStat.Attempts += player.MyServeStat.Attempts;
-            TeamServeStat.Errors += player.MyServeStat.Errors;
-            TeamServeStat.Successes += player.MyServeStat.Successes;
+            tempServe.Attempts += player.MyStats.ServeStats.Attempts;
+            tempServe.Errors += player.MyStats.ServeStats.Errors;
+            tempServe.Successes += player.MyStats.ServeStats.Successes;
             //Add setting stats
-            TeamSetStat.Attempts += player.MySetStat.Attempts;
-            TeamSetStat.Errors += player.MySetStat.Errors;
-            TeamSetStat.Successes += player.MySetStat.Successes;
+            tempSet.Attempts += player.MyStats.SetStats.Attempts;
+            tempSet.Errors += player.MyStats.SetStats.Errors;
+            tempSet.Successes += player.MyStats.SetStats.Successes;
+        }
+        Console.WriteLine($"  {Name} Stats");
+        Console.WriteLine("---------------");
+        TrackStat.DisplayStats(tempHit, tempServe, tempDig, tempSet);
+        int i = 0;
+        foreach(Player player in Players)
+        {
+            Console.WriteLine($"{i}: {player.Name}");
+            i++;
+        }
+        Console.WriteLine("Type in correlating number to look at a specific players stats. Enter 0 to skip");
+        int temp = ValidateAnswer(0, Players.Count);
+        if(temp != 0)
+        {
+            TrackStat temp1 = Players[temp].MyStats;
+            Console.WriteLine($"   {Players[temp - 1].Name}'s Stats");
+            Console.WriteLine("-------------");
+            TrackStat.DisplayStats(temp1.HittingStats, temp1.ServeStats, temp1.DigStats, temp1.SetStats);
         }
     }
 

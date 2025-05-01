@@ -43,7 +43,8 @@ public class Tournament
         Console.WriteLine("3: Record Game Results");
         Console.WriteLine("4: See Game Schedule");
         Console.WriteLine("5: See Pools");
-        int temp = ValidateAnswer(1, 5);
+        Console.WriteLine("6: Display Stats");
+        int temp = ValidateAnswer(1, 6);
         switch(temp)
         {
             case 1:
@@ -61,10 +62,24 @@ public class Tournament
             case 5:
                 DisplayPools();
                 break;
-
+            case 6:
+                DisplayStats();
+                break;
         }
     }
 
+    void DisplayStats()
+    {
+        Console.WriteLine("Which Team are you wanting to look at stats for?");
+        int i = 1;
+        foreach(Team team in Teams)
+        {
+            Console.WriteLine($"{i}: {team.Name}");
+            i++;
+        }
+        int temp = ValidateAnswer(1, Teams.Count);
+        Teams[temp - 1].TeamStats();
+    }
     void WhichStats()
     {
         Console.WriteLine("What kind of stats are being recorded? 1: Team Stats 2: Player Stats");
@@ -90,7 +105,7 @@ public class Tournament
             i++;
         }
         int temp = ValidateAnswer(1, Teams.Count);
-        Teams[temp].AddStat();
+        Teams[temp - 1].TeamStat.AddStat();
     }
 
     void AddPlayerStat()
@@ -112,7 +127,7 @@ public class Tournament
         }
         
         int temptemp = ValidateAnswer(1, Teams[temp - 1].Players.Count);
-        Teams[temp - 1].Players[temptemp - 1].AddStat();
+        Teams[temp - 1].Players[temptemp - 1].MyStats.AddStat();
     }
 
     void SplitIntoPoolPlay()

@@ -22,9 +22,17 @@ public class Stat
 
     public void CompileStat()
     {
-        GetAttempts();
-        GetErrors();
-        GetSuccesses();
+        do
+        {
+            GetAttempts();
+            GetErrors();
+            GetSuccesses();
+            if(Attempts != Errors + Successes)
+            {
+                Console.WriteLine("You're errors and successes seem to exceed the number of attempts made, please recheck your information");
+            }
+        }
+        while(Attempts != Errors + Successes);
     }
 
     public int ValidateAnswer()
