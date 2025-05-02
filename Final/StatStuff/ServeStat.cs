@@ -5,22 +5,22 @@ public class ServeStat : Stat
     public ServeStat() : base(){}
     public ServeStat(int attempts, int errors, int successes) : base(attempts, errors, successes){}
 
-    public override void GetAttempts()
+    public override int GetAttempts()
     {
         Console.WriteLine("How many serve attempts were made?");
-        Attempts = ValidateAnswer();
+        return ValidateAnswer();
     }
 
-    public override void GetErrors()
+    public override int GetErrors()
     {
         Console.WriteLine("How many service errors were made?");
-        Errors = ValidateAnswer();
+        return ValidateAnswer();
     }
 
-    public override void GetSuccesses()
+    public override int GetSuccesses()
     {
         Console.WriteLine("How many aces were made?");
-        Successes = ValidateAnswer();
+        return ValidateAnswer();
     }
 
     public void GetServePercentage()

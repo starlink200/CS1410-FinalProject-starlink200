@@ -4,22 +4,22 @@ public class DigStat : Stat
     public DigStat() : base(){}
     public DigStat(int attempts, int errors, int successes) : base(attempts, errors, successes){}
 
-    public override void GetAttempts()
+    public override int GetAttempts()
     {
         Console.WriteLine("How many dig attempts were made?");
-        Attempts = ValidateAnswer();
+        return ValidateAnswer();
     }
 
-    public override void GetErrors()
+    public override int GetErrors()
     {
         Console.WriteLine("How many dig errors were made?");
-        Errors = ValidateAnswer();
+        return ValidateAnswer();
     }
 
-    public override void GetSuccesses()
+    public override int GetSuccesses()
     {
         Console.WriteLine("How many dig were made?");
-        Successes = ValidateAnswer();
+        return ValidateAnswer();
     }
 
     public void GetDigPercentage()

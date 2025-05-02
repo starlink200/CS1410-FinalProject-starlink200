@@ -3,21 +3,21 @@ public class SetStat : Stat
     public SetStat() : base(){}
     public SetStat(int attempts, int errors, int successes) : base(attempts, errors, successes){}
 
-    public override void GetAttempts()
+    public override int GetAttempts()
     {
         Console.WriteLine("How many setting attempts were made?");
-        Attempts = ValidateAnswer();
+        return ValidateAnswer();
     }
 
-    public override void GetErrors()
+    public override int GetErrors()
     {
         Console.WriteLine("How many setting errors were made?");
-        Errors = ValidateAnswer();
+        return ValidateAnswer();
     }
 
-    public override void GetSuccesses()
+    public override int GetSuccesses()
     {
         Console.WriteLine("How many assists were made?");
-        Successes = ValidateAnswer();
+        return ValidateAnswer();
     }
 }

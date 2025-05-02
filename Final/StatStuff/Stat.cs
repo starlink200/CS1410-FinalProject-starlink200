@@ -22,17 +22,26 @@ public class Stat
 
     public void CompileStat()
     {
+        int attempts;
+        int errors;
+        int successes;
         do
         {
-            GetAttempts();
-            GetErrors();
-            GetSuccesses();
-            if(Attempts != Errors + Successes)
+            attempts = GetAttempts();
+            errors = GetErrors();
+            successes = GetSuccesses();
+            if(attempts != errors + successes)
             {
                 Console.WriteLine("You're errors and successes seem to exceed the number of attempts made, please recheck your information");
             }
+            else
+            {
+                Attempts += attempts;
+                Errors += errors;
+                Successes += successes;
+            }
         }
-        while(Attempts != Errors + Successes);
+        while(attempts != errors + successes);
     }
 
     public int ValidateAnswer()
@@ -51,7 +60,7 @@ public class Stat
         return num;
     }
 
-    public virtual void GetAttempts(){}
-    public virtual void GetErrors(){}
-    public virtual void GetSuccesses(){}
+    public virtual int GetAttempts(){return 0;}
+    public virtual int GetErrors(){return 0;}
+    public virtual int GetSuccesses(){return 0;}
 }

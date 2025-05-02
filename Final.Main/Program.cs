@@ -6,7 +6,8 @@ Console.WriteLine("Hello, World!");
 //     new Team("Lions"), new Team("Tigers"), new Team("Venom"), new Team("GSL"), new Team("Club V"), new Team("801"), new Team("Davis"),
 //     new Team("MTN Green")
 // };
-List<Team> teams = new List<Team>() {
+List<Team> teams = new List<Team>()
+{
     new Team("Lions"), new Team("Tigers"), new Team("Venom"), new Team("GSL")
 };
 teams[3].AddPlayer("John");

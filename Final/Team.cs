@@ -101,18 +101,18 @@ public class Team
         Console.WriteLine($"  {Name} Stats");
         Console.WriteLine("---------------");
         TrackStat.DisplayStats(tempHit, tempServe, tempDig, tempSet);
-        int i = 0;
+        int i = 1;
         foreach(Player player in Players)
         {
             Console.WriteLine($"{i}: {player.Name}");
             i++;
         }
         Console.WriteLine("Type in correlating number to look at a specific players stats. Enter 0 to skip");
-        int temp = ValidateAnswer(0, Players.Count);
+        int temp = ValidateAnswer(0, Players.Count - 1);
         if(temp != 0)
         {
             TrackStat temp1 = Players[temp].MyStats;
-            Console.WriteLine($"   {Players[temp - 1].Name}'s Stats");
+            Console.WriteLine($"   {Players[temp].Name}'s Stats");
             Console.WriteLine("-------------");
             TrackStat.DisplayStats(temp1.HittingStats, temp1.ServeStats, temp1.DigStats, temp1.SetStats);
         }
@@ -128,6 +128,7 @@ public class Team
             if(num < min || num > max)
             {
                 isValid = false;
+                Console.WriteLine("Please provide a valid answer");
             }
         }
         while(!isValid);
