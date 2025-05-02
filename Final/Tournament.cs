@@ -64,7 +64,7 @@ public class Tournament
     void SeedTeams()
     {
         List<Team> SeededTeams = Teams;
-        Console.WriteLine("Before sort");
+        Console.WriteLine("Before");
         foreach(Team team in SeededTeams)
         {
             Console.WriteLine($"{team.Name}");
@@ -78,9 +78,18 @@ public class Tournament
                 SeededTeams[i] = next;
                 SeededTeams[i+1] = current;
             }
+            else if(current.GetSetsWon() < next.GetSetsWon())
+            {
+                SeededTeams[i] = next;
+                SeededTeams[i+1] = current;
+            }
+            else if(current.GetSetsLost() > next.GetSetsLost())
+            {
+                SeededTeams[i] = next;
+                SeededTeams[i+1] = current;
+            }
         }
-
-        Console.WriteLine("after sort");
+        Console.WriteLine("after");
         foreach(Team team in SeededTeams)
         {
             Console.WriteLine($"{team.Name}");
@@ -88,15 +97,24 @@ public class Tournament
     }
     void RecordGameResults()
     {
-        Console.WriteLine("Which Game are you adding results for?");
+        int game;
         DisplayPoolPlay();
-        int game = ValidateAnswer(1, 6);
+        do
+        {
+            Console.WriteLine("Which Game are you adding results for?");
+            game = ValidateAnswer(1, 6);
+            if(Games[game - 1].PlayedGame)
+            {
+                Console.WriteLine("Hmm this game already has had its results inputted");
+            }
+        }
+        while(Games[game -1].PlayedGame);
         Console.WriteLine("Which team are you adding the results to");
-        Console.WriteLine($"1: {Games[game].Team1.Name}");
-        Console.WriteLine($"2: {Games[game].Team2.Name}");
+        Console.WriteLine($"1: {Games[game - 1].Team1.Name}");
+        Console.WriteLine($"2: {Games[game - 1].Team2.Name}");
         int team = ValidateAnswer(1, 2);
-        int team1Index = Teams.IndexOf(Games[game].Team1);
-        int team2Index = Teams.IndexOf(Games[game].Team2);
+        int team1Index = Teams.IndexOf(Games[game - 1].Team1);
+        int team2Index = Teams.IndexOf(Games[game - 1].Team2);
         int temp;
         int temp2;
         if(team == 1)
@@ -114,8 +132,10 @@ public class Tournament
         Console.WriteLine($"How many sets did {Teams[temp].Name} lose?");
         int setsLost = ValidateAnswer(0,2);
         //however many sets one team won the other team had to lose and vice versa
-        Teams[temp].matchScores.Add(new MatchScores(setsWon, setsLost));
-        Teams[temp2].matchScores.Add(new MatchScores(setsLost, setsWon));
+        Teams[temp - 1].matchScores.Add(new MatchScores(setsWon, setsLost));
+        Teams[temp2 - 1].matchScores.Add(new MatchScores(setsLost, setsWon));
+        int whichGame = Games.IndexOf(new Game(Teams[temp], Teams[temp2]));
+        Games[whichGame - 1] = new Game(Teams[temp], Teams[temp2], true);
         
     }
 
@@ -145,15 +165,15 @@ public class Tournament
         {
             for(int j = 0; j < Teams.Count; j++)
             {
-                if(Teams[i].Pool == Teams[j].Pool && Teams[i] != Teams[j] && !Games.Contains(new Game(Teams[i], Teams[j], true)) && !Games.Contains(new Game(Teams[j], Teams[i], true)))
+                if(Teams[i].Pool == Teams[j].Pool && Teams[i] != Teams[j] && !Games.Contains(new Game(Teams[i], Teams[j])) && !Games.Contains(new Game(Teams[j], Teams[i])))
                 {
-                    Games.Add(new Game(Teams[i], Teams[j], true));
+                    Games.Add(new Game(Teams[i], Teams[j]));
                 }
             }
         }
     }
 
-    void DisplayPoolPlay()
+    int DisplayPoolPlay()
     {
         Console.WriteLine("Which pool play games would you like to look at?");
         for(int i = 0; i < Teams.Count/4; i++)
@@ -169,22 +189,27 @@ public class Tournament
             if(temp == 1 && game.Team1.Pool == Pools.Pool1)
             {
                 Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
+                j++;
             }
             else if(temp == 2 && game.Team1.Pool == Pools.Pool2)
             {
                 Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
+                j++;
             }
             else if(temp == 3 && game.Team1.Pool == Pools.Pool3)
             {
                 Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
+                j++;
             }
             else if(temp == 1 && game.Team1.Pool == Pools.Pool4)
             {
                 Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
+                j++;
             }
-            j++;
+            
         }
         Console.WriteLine();
+        return temp;
     }
 
     void DisplayStats()

@@ -7,6 +7,12 @@ public struct Game
 
     public readonly bool PlayedGame;
 
+    public Game(Team team1, Team team2)
+    {
+        Team1 = team1;
+        Team2 = team2;
+    }
+
     public Game(Team team1, Team team2, bool playedGame)
     {
         Team1 = team1;
