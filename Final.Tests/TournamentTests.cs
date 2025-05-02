@@ -16,7 +16,7 @@ public class TournamentTests
         // Simulate 6 games (1 pool of 4 teams -> 6 games)
         for (int i = 0; i < 6; i++)
         {
-            tournament.PoolPlayGames.Add(new Game(teams[0], teams[1]));
+            tournament.PoolPlayGames.Add(new Game(teams[0], teams[1], true));
         }
 
         Assert.True(tournament.FinishedPoolPlay());
@@ -35,5 +35,39 @@ public class TournamentTests
 
         // In a round robin of 4 teams, there should be 6 games
         Assert.AreEqual(6, tournament.PoolPlayGames.Count);
+    }
+
+    [Test]
+
+    public void ReseedsTeams()
+    {
+        List<Team> teams = new List<Team>
+        {
+            new Team("A"), new Team("B"), new Team("C"), new Team("D")
+        };
+        Tournament tournament = new Tournament(teams);
+        tournament.Teams[3].matchScores.Add(new MatchScores(2,0));
+        tournament.Teams[0].matchScores.Add(new MatchScores(0,2));
+        
+        tournament.SeedTeams();
+        Assert.That(tournament.Teams[0].Name, Is.Not.EqualTo("A"));
+    }
+
+    [Test]
+
+    public void ReseedsPools()
+    {
+        List<Team> teams = new List<Team>
+        {
+            new Team("A"), new Team("B"), new Team("C"), new Team("D"), new Team("E"), new Team("F"), new Team("G"), new Team("H")
+        };
+        Tournament tournament = new Tournament(teams);
+        tournament.Teams[3].matchScores.Add(new MatchScores(2,0));
+        tournament.Teams[0].matchScores.Add(new MatchScores(0,2));
+        tournament.Teams[3].Pool = Pools.Pool4;
+        Pools temp = tournament.Teams[3].Pool;
+        tournament.SeedTeams();
+        tournament.SeededPools();
+        Assert.That(tournament.Teams[3].Pool, Is.Not.EqualTo(temp));
     }
 }

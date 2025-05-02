@@ -5,6 +5,7 @@ public class Stat
     public int Attempts;
     public int Errors;
     public int Successes;
+    public double Percentage;
 
     public Stat()
     {
@@ -42,6 +43,7 @@ public class Stat
             }
         }
         while(attempts != errors + successes);
+        GetPercentage();
     }
 
     public int ValidateAnswer()
@@ -63,4 +65,8 @@ public class Stat
     public virtual int GetAttempts(){return 0;}
     public virtual int GetErrors(){return 0;}
     public virtual int GetSuccesses(){return 0;}
+    public void GetPercentage()
+    {
+        Percentage = (double)(Successes - Errors)/Attempts;
+    }
 }

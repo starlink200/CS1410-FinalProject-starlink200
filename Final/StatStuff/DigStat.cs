@@ -1,6 +1,5 @@
 public class DigStat : Stat
 {
-    public double DigPercentage;
     public DigStat() : base(){}
     public DigStat(int attempts, int errors, int successes) : base(attempts, errors, successes){}
 
@@ -22,8 +21,4 @@ public class DigStat : Stat
         return ValidateAnswer();
     }
 
-    public void GetDigPercentage()
-    {
-        DigPercentage = (Successes - Errors)/Attempts;
-    }
 }

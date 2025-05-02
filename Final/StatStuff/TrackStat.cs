@@ -17,9 +17,9 @@ public class TrackStat
     public static void DisplayStats(HittingStat Hit, ServeStat Serve, DigStat Dig, SetStat Set)
     {
 
-        Console.WriteLine($"Serve Attempts: {Serve.Attempts} Service Aces: {Serve.Successes} Service Errors: {Serve.Errors} Serving %: {Serve.ServePercentage}");
-        Console.WriteLine($"Hitting Attempts: {Hit.Attempts} Kills: {Hit.Successes} Hitting Errors: {Hit.Errors} Hitting %: {Hit.HittingPercentage}");
-        Console.WriteLine($"Dig Attempts: {Dig.Attempts} Digs: {Dig.Successes} Dig Errors: {Dig.Errors} Dig %: {Dig.DigPercentage}");
+        Console.WriteLine($"Serve Attempts: {Serve.Attempts} Service Aces: {Serve.Successes} Service Errors: {Serve.Errors} Serving %: {Serve.Percentage}");
+        Console.WriteLine($"Hitting Attempts: {Hit.Attempts} Kills: {Hit.Successes} Hitting Errors: {Hit.Errors} Hitting %: {Hit.Percentage}");
+        Console.WriteLine($"Dig Attempts: {Dig.Attempts} Digs: {Dig.Successes} Dig Errors: {Dig.Errors} Dig %: {Dig.Percentage}");
         Console.WriteLine($"Setting Attempts: {Set.Attempts} Assists: {Set.Successes} Setting Errors: {Set.Errors}");
         Console.WriteLine();
     }

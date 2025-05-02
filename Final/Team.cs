@@ -134,4 +134,15 @@ public class Team
         while(!isValid);
         return num;
     }
+    public override bool Equals(object? obj)
+    {
+        if(!(obj is Team other))
+            return false;
+        return Name == other.Name;
+    }
+
+    public override int GetHashCode()
+    {
+        return Name?.GetHashCode() ?? 0;
+    }
 }

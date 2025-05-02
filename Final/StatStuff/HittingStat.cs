@@ -2,7 +2,6 @@ using System.Security.Cryptography.X509Certificates;
 namespace Final;
 public class HittingStat : Stat
 {
-    public double HittingPercentage;
     public HittingStat() : base(){}
     public HittingStat(int attempts, int errors, int successes) : base(attempts, errors, successes){}
 
@@ -24,8 +23,4 @@ public class HittingStat : Stat
         return ValidateAnswer();
     }
 
-    public void GetHitPercentage()
-    {
-        HittingPercentage = (Successes - Errors)/Attempts;
-    }
 }

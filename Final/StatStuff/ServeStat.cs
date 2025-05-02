@@ -1,6 +1,5 @@
 public class ServeStat : Stat
 {
-    public double ServePercentage;
 
     public ServeStat() : base(){}
     public ServeStat(int attempts, int errors, int successes) : base(attempts, errors, successes){}
@@ -23,8 +22,4 @@ public class ServeStat : Stat
         return ValidateAnswer();
     }
 
-    public void GetServePercentage()
-    {
-        ServePercentage = (Successes - Errors)/Attempts;
-    }
 }
