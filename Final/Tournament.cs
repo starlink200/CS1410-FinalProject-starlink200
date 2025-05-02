@@ -87,7 +87,7 @@ public class Tournament
             ElimationSchedule();
         }
     }
-    bool FinishedPoolPlay()
+    public bool FinishedPoolPlay()
     {
         int i = 0;
         foreach(Game game in PoolPlayGames)
@@ -223,11 +223,12 @@ public class Tournament
         {
             Teams[i].Pool = 0;
         }
+        PoolPlayGames = new List<Game>();
         SplitIntoPoolPlay();
         PoolPlaySchedule();
     }
 
-    void PoolPlaySchedule()
+    public void PoolPlaySchedule()
     {
         for(int i = 0; i < Teams.Count; i++)
         {
