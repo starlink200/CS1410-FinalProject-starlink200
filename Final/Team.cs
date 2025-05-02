@@ -34,6 +34,39 @@ public class Team
         }
     }
 
+    public int GetMatchesWon()
+    {
+        int TotalWins = 0;
+        foreach(MatchScores matchScores in matchScores)
+        {
+            if(matchScores.WonMatch)
+            {
+                TotalWins++;
+            }
+        }
+        return TotalWins;
+    }
+
+    public int GetSetsWon()
+    {
+        int TotalSetsWon = 0;
+        foreach(MatchScores matchScores in matchScores)
+        {
+            TotalSetsWon += matchScores.SetsWon;
+        }
+        return TotalSetsWon;
+    }
+    
+    public int GetSetsLost()
+    {
+        int TotalSetsLost = 0;
+        foreach(MatchScores matchScores in matchScores)
+        {
+            TotalSetsLost += matchScores.SetsLost;
+        }
+        return TotalSetsLost;
+    }
+
     public string GetPlayerName()
     {
         Console.WriteLine("What is this players name?");

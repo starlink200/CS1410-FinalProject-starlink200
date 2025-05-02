@@ -5,6 +5,8 @@ public class Tournament
     Random rand = new Random();
     public List<Team> Teams = new List<Team>();
     public List<Game> Games = new List<Game>();
+    //each pool has 6 games occur during pool play
+    public bool FinishPoolPlay => Games.Count == (Teams.Count/4) * 6;
     public Tournament()
     {
 
@@ -45,7 +47,7 @@ public class Tournament
                 WhichStats();
                 break;
             case 3:
-                //RecordGameResults();
+                RecordGameResults();
                 break;
             case 4:
                 DisplayPoolPlay();
@@ -58,9 +60,82 @@ public class Tournament
                 break;
         }
     }
+
+    void SeedTeams()
+    {
+        List<Team> SeededTeams = Teams;
+        Console.WriteLine("Before sort");
+        foreach(Team team in SeededTeams)
+        {
+            Console.WriteLine($"{team.Name}");
+        }
+        for(int i = 0; i < SeededTeams.Count - 1;  i++)
+        {
+            Team current = SeededTeams[i];
+            Team next = SeededTeams[i + 1];
+            if(current.GetMatchesWon() < next.GetMatchesWon())
+            {
+                SeededTeams[i] = next;
+                SeededTeams[i+1] = current;
+            }
+        }
+
+        Console.WriteLine("after sort");
+        foreach(Team team in SeededTeams)
+        {
+            Console.WriteLine($"{team.Name}");
+        }
+    }
+    void RecordGameResults()
+    {
+        Console.WriteLine("Which Game are you adding results for?");
+        DisplayPoolPlay();
+        int game = ValidateAnswer(1, 6);
+        Console.WriteLine("Which team are you adding the results to");
+        Console.WriteLine($"1: {Games[game].Team1.Name}");
+        Console.WriteLine($"2: {Games[game].Team2.Name}");
+        int team = ValidateAnswer(1, 2);
+        int team1Index = Teams.IndexOf(Games[game].Team1);
+        int team2Index = Teams.IndexOf(Games[game].Team2);
+        int temp;
+        int temp2;
+        if(team == 1)
+        {
+            temp = team1Index;
+            temp2 = team2Index;
+        }
+        else
+        {
+            temp = team2Index;
+            temp2 = team1Index;
+        }
+        Console.WriteLine($"How many sets did {Teams[temp].Name} win?");
+        int setsWon = ValidateAnswer(0, 2);
+        Console.WriteLine($"How many sets did {Teams[temp].Name} lose?");
+        int setsLost = ValidateAnswer(0,2);
+        //however many sets one team won the other team had to lose and vice versa
+        Teams[temp].matchScores.Add(new MatchScores(setsWon, setsLost));
+        Teams[temp2].matchScores.Add(new MatchScores(setsLost, setsWon));
+        
+    }
+
     public void AddTeam()
     {
+        int temp;
+        Console.WriteLine("Please enter the teams name");
         Teams.Add(new Team(Console.ReadLine()));
+        do
+        {
+            Console.WriteLine("Would you like to add players? 1: Yes 2: No");
+            temp = ValidateAnswer(1,2);
+            if(temp == 1)
+            {
+                Teams[Teams.Count-1].AddPlayer();
+            }
+
+        }
+        while(temp == 1);
+
 
     }
 
@@ -70,9 +145,9 @@ public class Tournament
         {
             for(int j = 0; j < Teams.Count; j++)
             {
-                if(Teams[i].Pool == Teams[j].Pool && Teams[i] != Teams[j] && !Games.Contains(new Game(Teams[i], Teams[j])) && !Games.Contains(new Game(Teams[j], Teams[i])))
+                if(Teams[i].Pool == Teams[j].Pool && Teams[i] != Teams[j] && !Games.Contains(new Game(Teams[i], Teams[j], true)) && !Games.Contains(new Game(Teams[j], Teams[i], true)))
                 {
-                    Games.Add(new Game(Teams[i], Teams[j]));
+                    Games.Add(new Game(Teams[i], Teams[j], true));
                 }
             }
         }
@@ -86,26 +161,28 @@ public class Tournament
             Console.WriteLine($"Pool {i + 1}");
         }
         int temp = ValidateAnswer(1, Teams.Count/4);
+        int j = 1;
         Console.WriteLine($"   Pool {temp} Games");
         Console.WriteLine($"-----------------------");
         foreach(Game game in Games)
         {
             if(temp == 1 && game.Team1.Pool == Pools.Pool1)
             {
-                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+                Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
             }
             else if(temp == 2 && game.Team1.Pool == Pools.Pool2)
             {
-                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+                Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
             }
             else if(temp == 3 && game.Team1.Pool == Pools.Pool3)
             {
-                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+                Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
             }
             else if(temp == 1 && game.Team1.Pool == Pools.Pool4)
             {
-                Console.WriteLine($"{game.Team1.Name} VS {game.Team2.Name}");
+                Console.WriteLine($"{j}: {game.Team1.Name} VS {game.Team2.Name}");
             }
+            j++;
         }
         Console.WriteLine();
     }
@@ -258,6 +335,10 @@ public class Tournament
             if(num < min || num > max)
             {
                 isValid = false;
+            }
+            if(!isValid)
+            {
+                Console.WriteLine("Please provide a valid answer");
             }
         }
         while(!isValid);
